@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HippoChat — Encrypted, Disposable Chat Rooms</title>
+
+ <!-- Favicon links -->
+    <link rel="icon" type="image/png" href="hiypo.png">
+    <link rel="shortcut icon" href="hiypo.png">
+    <link rel="apple-touch-icon" href="hiypo.png">
+    
+    <!-- For different sizes -->
+    <link rel="icon" type="image/png" sizes="164x164" href="hiypo.png">
+    
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- PWA Meta Tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#667eea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SecureChat">
+
+<!-- Icons -->
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Manifest -->
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fa-solid fa-hippo fa-lg"></i>
+                <h1>HippoChat</h1>
+            </div>
+            <div class="security-badge">
+                <i class="fas fa-lock"></i>
+                <span>End-to-End Encrypted</span>
+            </div>
+        </header>
+
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <div class="hero">
+                    <h2>Secure Ephemeral Communication</h2>
+                    <p>Create temporary chat rooms with end-to-end encryption. Messages are automatically deleted when the session ends.</p>
+                </div>
+
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Anonymous</h3>
+                        <p>No registration required. Chat anonymously.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-lock"></i>
+                        <h3>Encrypted</h3>
+                        <p>Messages are encrypted in your browser before sending.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <h3>Ephemeral</h3>
+                        <p>All messages are automatically deleted after the session.</p>
+                    </div>
+                    <div class="feature">
+                     <i class="fa-solid fa-database"></i>
+                     <h3>No Database</h3>
+                     <p>Don't store messages, and don't collect personal data.</p>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="create-room-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Create New Room
+                    </button>
+                    <button id="join-room-btn" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Join Existing Room
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Room Screen -->
+        <div id="create-room-screen" class="screen">
+            <div class="form-container">
+                <h2><i class="fas fa-plus-circle"></i> Create New Room</h2>
+                <form id="create-room-form">
+                    <div class="form-group">
+                        <label for="room-name">Room Name</label>
+                        <input type="text" id="room-name" placeholder="Enter room name (optional)" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="username-create">Your Username</label>
+                        <input type="text" id="username-create" placeholder="Enter your username" required maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="auto-delete-timer">Auto-delete timer (minutes)</label>
+                        <select id="auto-delete-timer">
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="60">1 hour</option>
+                            <option value="120">2 hours</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="showWelcomeScreen()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-key"></i>
+                            Create Room
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Join Room Screen -->
+        <div id="join-room-screen" class="screen">
+            <div class="form-container">
+                <h2><i class="fas fa-sign-in-alt"></i> Join Room</h2>
+                <form id="join-room-form">
+                    <div class="form-group">
+                        <label for="room-id">Room ID</label>
+                        <input type="text" id="room-id" placeholder="Enter room ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username-join">Your Username</label>
+                        <input type="text" id="username-join" placeholder="Enter your username" required maxlength="20">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="showWelcomeScreen()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-door-open"></i>
+                            Join Room
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div id="chat-screen" class="screen">
+            <div class="chat-container">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="room-info">
+                        <h3 id="chat-room-name">Room Name</h3>
+                        <span id="room-id-display">Room ID: #12345</span>
+                        <div class="room-status">
+                            <div class="online-indicator"></div>
+                            <span id="online-count">1 online</span>
+                        </div>
+                    </div>
+                    <div class="chat-controls">
+                        <span id="timer-display" class="timer">
+                            <i class="fas fa-clock"></i>
+                            <span id="time-remaining">30:00</span>
+                        </span>
+                        <button id="leave-room-btn" class="btn btn-danger btn-sm">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Leave
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages Container -->
+                <div id="messages-container" class="messages-container">
+                    <div class="encryption-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Messages are end-to-end encrypted. Only participants can read them.</span>
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <div class="input-wrapper">
+                        <input type="text" id="message-input" placeholder="Type your encrypted message..." maxlength="1000" autocomplete="off">
+                        <button id="send-btn" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="encryption-status">
+                        <i class="fas fa-lock"></i>
+                        <span>Messages are encrypted before sending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+           <!-- Floating Bug Symbol -->
+    <div class="floating-bug" id="floating-bug" aria-label="Report a bug" role="button" tabindex="0">
+        <i class="fas fa-bug"></i>
+    </div>
+
+    <!-- Bug Report Modal -->
+    <div class="bug-modal" id="bug-modal" role="dialog" aria-labelledby="bug-modal-title" aria-hidden="true">
+        <div class="bug-modal-content">
+            <div class="bug-modal-header">
+                <h3 id="bug-modal-title">🐛 Report a Bug</h3>
+                <button class="close-bug-modal" id="close-bug-modal" aria-label="Close bug report">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="bug-form" id="bug-form">
+                <div class="form-group">
+                    <label for="bug-description" style="color: var(--text-secondary); margin-bottom: var(--spacing-sm); display: block;">
+                        Describe the magical issue you encountered ✨
+                    </label>
+                    <textarea id="bug-description" placeholder="Tell us about the bug in detail..." required aria-required="true"></textarea>
+                </div>
+                <div class="bug-form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-bug-report">
+                        Cancel
+                    </button>
+                    <!-- UPDATED BUTTON TEXT -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-hat-wizard"></i>
+                        Send via Magic Portal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Terms & Conditions Modal -->
+<div id="terms-modal" class="terms-modal active">
+    <div class="terms-modal-content">
+        <div class="terms-header">
+            <h2><i class="fas fa-shield-alt"></i> Terms & Conditions</h2>
+        </div>
+        
+        <div class="terms-body">
+            <div class="terms-content">
+                <h3>Welcome to HippoChat! 🦛</h3>
+                
+                <div class="terms-section">
+                    <h4><i class="fas fa-lock"></i> Privacy & Security</h4>
+                    <ul>
+                        <li>All messages are end-to-end encrypted</li>
+                        <li>No personal data is stored on our servers</li>
+                        <li>Chat rooms are ephemeral and auto-delete</li>
+                        <li>We don't track your activities</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Important Notes</h4>
+                    <ul>
+                        <li>Use responsibly and respect other users</li>
+                        <li>Don't share sensitive personal information</li>
+                        <li>Messages are automatically deleted when rooms expire</li>
+                        <li>You are responsible for your own content</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h4><i class="fas fa-user-secret"></i> Anonymous Usage</h4>
+                    <ul>
+                        <li>No registration required</li>
+                        <li>No email collection</li>
+                        <li>Complete anonymity</li>
+                        <li>Your privacy is our priority</li>
+                    </ul>
+                </div>
+                
+                <div class="agreement-check">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="agree-terms" required>
+                        <span class="checkmark"></span>
+                        I have read and agree to the Terms & Conditions
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="terms-footer">
+            <button id="accept-terms" class="btn btn-primary" disabled>
+                <i class="fas fa-check-circle"></i>
+                Accept & Continue
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Help Button -->
+<div id="help-btn" class="help-btn" title="How to use SecureChat">
+    <i class="fas fa-question"></i>
+</div>
+
+<!-- Help Modal -->
+<div id="help-modal" class="help-modal">
+    <div class="help-modal-content">
+        <div class="help-header">
+            <h2><i class="fas fa-info-circle"></i> How to Use HippoChat?</h2>
+            <button id="close-help" class="close-help" aria-label="Close help">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="help-body">
+            <div class="help-section">
+                <h3><i class="fas fa-plus-circle"></i> Creating a Room</h3>
+                <ul>
+                    <li>Click "Create New Room" on the welcome screen.</li>
+                    <li>Enter your username (max 20 characters).</li>
+                    <li>Choose room name (optional).</li>
+                    <li>Set auto-delete timer (5-120 minutes)</li>
+                    <li>Click "Create Room" to generate encrypted room.</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3><i class="fas fa-sign-in-alt"></i> Joining a Room</h3>
+                <ul>
+                    <li>Click "Join Existing Room" on the welcome screen.</li>
+                    <li>Enter the Room ID (shared by room creator).</li>
+                     <li>Escape the "#" when enter the Room ID.</li>
+                    <li>Enter your username (max 20 characters).</li>
+                    <li>Click "Join Room" to enter the chat.</li>
+                </ul>
+            </div>
+
+            <div class="help-tip">
+                <i class="fas fa-lightbulb"></i>
+                <strong>ProTip:</strong> Share the Room ID securely with people you want to chat with. All messages are automatically encrypted!
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div id="toast-container" class="toast-container"></div>
+    <!-- JavaScript Files -->
+    <script src="js/crypto.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/messaging.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

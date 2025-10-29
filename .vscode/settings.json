@@ -1,0 +1,21 @@
+{
+  "liveServer.settings.port": 3000,
+  "liveServer.settings.CustomBrowser": "chrome",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.cors": true,
+  "html.format.wrapAttributes": "aligned-multiple",
+  "html.format.endWithNewline": true,
+  "css.format.enable": true,
+  "css.format.newlineBetweenRules": true,
+  "javascript.format.semicolons": "insert",
+  "javascript.preferences.quoteStyle": "single",
+  "files.associations": {
+    "*.html": "html",
+    "*.css": "css",
+    "*.js": "javascript"
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  }
+}
