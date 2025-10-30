@@ -8,11 +8,16 @@
     "dev": "nodemon server.js",
     "build": "echo 'No build process needed for this app'"
   },
-  "keywords": ["chat", "encrypted", "secure", "websocket"],
-  "author": "Your Name",
+  "keywords": [
+    "chat",
+    "encrypted",
+    "secure",
+    "websocket"
+  ],
+  "author": "Biswa",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "ws": "^8.13.0"
   },
   "devDependencies": {
